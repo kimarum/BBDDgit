@@ -1,12 +1,5 @@
-/*
-COMENTAROS
-*/
 
--- Comentario en una lína
 -- las siguientes instruciones son para crear una base de datos con las edades de las personas <30
-
-
-
 
 CREATE TABLE bbdd.person (
     Name VARCHAR(255),
@@ -49,13 +42,11 @@ RENAME TABLE `bbdd.Birth Date` TO bbdd.Birth_Date;
 ALTER TABLE bbdd.person CHANGE `Birth Date` Birth_Date DATE;
 ALTER TABLE bbdd.person CHANGE `Birth Date` Birth_Date DATE;
 
-
 SELECT * FROM (
   SELECT `Birth Date`, TIMESTAMPDIFF(YEAR, `Birth Date`, CURDATE()) AS Age 
   FROM bbdd.person
 ) AS temp
 WHERE Age > (SELECT Years_Company1 + Years_Company2 + Years_Company3 FROM jobs) -- Sum of the three values from Years_Company1, Years_Company2, Years_Company3
-
 
 SELECT * FROM (
     SELECT `Birth_Date`, TIMESTAMPDIFF(YEAR, `Birth_Date`, CURDATE()) AS Age 
@@ -95,3 +86,15 @@ ON DUPLICATE KEY UPDATE
     amed = VALUES(amed);
 
 -- EJ4 empieza aqui¿?¿?¿?¿?¿?¿?¿?¿?¿?¿?
+--LA SIGUIENTE INSTRUCCION ES PARA contar cuantas veces se repite una direccion 
+SELECT Address, COUNT(*) as Count
+FROM (
+    SELECT AddressCompany1 as Address FROM bbdd.jobs
+    UNION ALL
+    SELECT AddressCompany2 as Address FROM bbdd.jobs
+    UNION ALL
+    SELECT AddressCompany3 as Address FROM bbdd.jobs
+) AS Addresses
+GROUP BY Address;
+
+--En este punto carece de sentido buscar el minimo y maximo cuando no hay ninguna empresa repetida
